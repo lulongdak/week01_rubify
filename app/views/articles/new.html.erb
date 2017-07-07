@@ -1,0 +1,55 @@
+<center><h1>NEW ARTICLES </h1></center>
+
+<div class="col-sm-offset-2 col-sm-10">
+<%= form_for :article,:html=>{:class=>"form-horizontal"}, url: articles_path do |f|  %>
+
+  <% if @article.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@article.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% @article.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <center>
+    <%= image_tag(@article.image.url(:thumb) , :id => "output", :style => "max-width:200px;max-height:200px") %><br>
+  </center>
+  <div class="form-group">
+  <%= f.label :image,  :class=>"control-label col-sm-2" %>
+  <%= f.file_field :image, accept: 'image/*', :onchange => "loadFile(event)" %>
+</div>
+  <div class="form-group">
+    <%= f.label :title, :class=>"control-label col-sm-2" %>
+    <div class="col-sm-5">
+      <%= f.text_field :title, :class=>"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :content, :class=>"control-label col-sm-2" %>
+    <div class="col-sm-5">
+      <%= f.text_area :content, :class=>"form-control", rows: "10"%>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :state, :class=>"control-label col-sm-2" %>
+    <div class="col-sm-5">
+    <%= f.select :state, [['private','private'],['public','public']] %>
+  </div>
+  </div>
+
+  <div class="col-sm-offset-4 col-sm-10">
+    <%= f.submit %>
+  </div>
+  <div class="col-sm-offset-4 col-sm-10">
+    <h3><%= link_to 'Back', articles_path %></h3>
+  </div>
+<% end %>
+
+</div>

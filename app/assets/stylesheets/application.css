@@ -12,4 +12,11 @@
  *
  *= require_tree .
  *= require_self
+ *= require articles
  */
+ .morecontent span {
+     display: none;
+ }
+ .morelink {
+     display: block;
+ }

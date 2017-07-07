@@ -1,0 +1,46 @@
+
+<center><h2>Edit article</h2></center>
+<div class="container">
+  <%= form_for(@article) do |f|%>
+
+    <% if @article.errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= pluralize(@article.errors.count, "error") %> prohibited
+          this article from being saved:
+        </h2>
+        <ul>
+          <% @article.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="form-group">
+
+      <%= f.label "Title: " %><br>
+      <%= f.text_field :title, :class => "form-control" %>
+    </div>
+    <div class="form-group">
+    <%= f.label "Image: "  %>
+    <center>
+      <%= image_tag(@article.image.url(:thumb) , :id => "output", :style => "max-width:200px;max-height:200px") %><br>
+
+
+     <%= f.file_field :image, accept: 'image/*', :onchange => "loadFile(event)" %>
+     </center>
+   </div>
+    <div class="form-group">
+      <%= f.label "Content:" %><br>
+      <%= f.text_area :content, class: "form-control", rows: "10" %>
+    </div>
+    <center>
+      <p>
+        <%= f.submit "Update", class:  "btn btn-success" %>
+      </p>
+      <%= link_to 'Back', articles_path, class: "btn btn-info" %>
+    </center>
+  <% end %>
+
+
+</div>

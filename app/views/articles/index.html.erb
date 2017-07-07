@@ -1,0 +1,73 @@
+
+<br>
+<div style="position: fixed; margin-left: 15px" >
+    <%= link_to image_tag('/assets/add.png', style: "max-width: 100px"), new_article_path %>
+</div><br>
+<div class="container">
+
+  <% @articles.each do |article| %>
+  <div class="media">
+    <div class="media-left">
+
+        <%= image_tag(article.user.avatar.url(:thumb) , :style => "max-width:60px;max-height:60px", :class => "media-object") %><br>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading"><%= article.user.name %></h4>
+      <p><%= article.created_at.to_s  %></p>
+      <center>
+        <h3> <%= article.title %> </h3>
+        <%= image_tag(article.image.url(:thumb) , :style => "min-width:200px;min-height:200px;") %><br>
+      </center>
+      <span class = "more"><%= article.content %></span>
+    </div>
+    <div class="media-right">
+        <%= link_to image_tag('/assets/show.png'), article_path(article) %>
+        <% if user_signed_in? && current_user.id == article.user.id %>
+        <%= link_to image_tag('/assets/user_edit.png'), edit_article_path(article) %>
+        <%= link_to image_tag('/assets/delete.png'), article_path(article),
+                      method: :delete,
+                      data: { confirm: 'Are you sure?' } %>
+        <% end %>
+    </div>
+  </div>
+  <hr>
+  <% end %>
+</div>
+<script>
+$(document).ready(function() {
+    // Configure/customize these variables.
+    var showChar = 100;  // How many characters are shown by default
+    var ellipsestext = "...";
+    var moretext = "Show more >";
+    var lesstext = "";
+
+
+    $('.more').each(function() {
+        var content = $(this).html();
+
+        if(content.length > showChar) {
+
+            var c = content.substr(0, showChar);
+            var h = content.substr(showChar, content.length - showChar);
+
+            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+            $(this).html(html);
+        }
+
+    });
+
+    $(".morelink").click(function(){
+        if($(this).hasClass("less")) {
+            $(this).removeClass("less");
+            $(this).html(moretext);
+        } else {
+            $(this).addClass("less");
+            $(this).html(lesstext);
+        }
+        $(this).parent().prev().toggle();
+        $(this).prev().toggle();
+        return false;
+    });
+});
+</script>
